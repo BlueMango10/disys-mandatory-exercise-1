@@ -96,8 +96,8 @@ paths:
           schema:
             $ref: '#/definitions/Student'
       responses:
-        200:
-          description: OK
+        201:
+          description: Created
         default:
           description: Unexpected error.
   
@@ -206,8 +206,8 @@ paths:
           schema:
             $ref: '#/definitions/Teacher'
       responses:
-        200:
-          description: OK
+        201:
+          description: Created
         default:
           description: Unexpected error.
   
@@ -312,8 +312,8 @@ paths:
           schema:
             $ref: "#/definitions/Course"
       responses:
-        200:
-          description: OK
+        201:
+          description: Created
         default:
           description: Unexpected error.
 
