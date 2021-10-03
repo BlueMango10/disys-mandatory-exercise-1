@@ -54,12 +54,14 @@ definitions:
       satisfaction:
         type: number
         example: 0.5
-      teacher:
-        $ref: '#/definitions/Teacher'
+      teacher: # Teacher id
+        type: integer
+        example: 1
       students:
         type: array
-        items:
-          $ref: '#/definitions/Student'
+        items: # Student id
+          type: integer
+          example: 2
     required:
       - id
       - name
