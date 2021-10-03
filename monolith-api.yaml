@@ -1,0 +1,85 @@
+swagger: "2.0"
+info:
+  title: ITU Course Manager
+  description: Manage itu student and courses.
+  version: 1.0.0
+
+host: localhost:8080
+basePath: /itucm
+schemes:
+  - http
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+definitions:
+  Student:
+    properties:
+      id:
+        type: integer
+        example: 12345
+      name:
+        type: string
+        example: Garfield Guevara
+    required:
+      - id
+      - name
+  Teacher:
+    properties:
+      id:
+        type: integer
+        example: 12345
+      name:
+        type: string
+        example: Cameron Morse
+      popularity:
+        type: number
+        example: 0.5
+    required:
+      - id
+      - name
+  Course:
+    properties:
+      id:
+        type: integer
+        example: 123
+      name:
+        type: string
+        example: Distributed Systems, BSc (Autumn 2021)
+      workload:
+        type: integer
+        example: 32
+      satisfaction:
+        type: number
+        example: 0.5
+      teacher:
+        $ref: '#/definitions/Teacher'
+      students:
+        type: array
+        items:
+          $ref: '#/definitions/Student'
+    required:
+      - id
+      - name
+
+paths:
+  /student:
+  
+  /course:
+  
+  /teacher:
+
+
+
+
+
+
+
+
+
+
+
+
+
