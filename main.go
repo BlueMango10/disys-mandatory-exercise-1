@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -24,7 +25,7 @@ type Course struct {
 	Workload     int     `json:"workload"`
 	Satisfaction float32 `json:"satisfaction"`
 	Teacher      int     `json:"teacher"`
-	Students     []int   `json:"student"`
+	Students     []int   `json:"students"`
 }
 
 var students = []Student{
@@ -81,29 +82,66 @@ func postCourse(c *gin.Context) {
 // GET /course/:id
 func getCourseById(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
-	if (err != nil) {
+	if (err != nil || id < 0) {
 		c.Writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	for _, course := range courses {
-		if course.Id == id {
-			c.IndentedJSON(http.StatusOK, course)
-			return
-		}
+	course, _ := getCourseAndIndex(&courses, id)
+
+	if course == nil {
+		c.Writer.WriteHeader(http.StatusNotFound)
+		return
 	}
+	
+	c.IndentedJSON(http.StatusOK, course)
 
 	c.Writer.WriteHeader(http.StatusNotFound)
 }
 
 // PUT /course/:id
 func updateCourse(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if (err != nil || id < 0) {
+		c.Writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
+	var newCourseInfo Course
+	if err := c.BindJSON(&newCourseInfo); err != nil {
+		return
+	}
+	if (newCourseInfo.Id != id) {
+		newCourseInfo.Id = id
+	}
+
+	_, i := getCourseAndIndex(&courses, id)
+	if i < 0 {
+		c.Writer.WriteHeader(http.StatusNotFound)
+		return
+	}
+	
+	courses[i] = newCourseInfo
 }
 
 // DELETE /course/:id
 func deleteCourse(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if (err != nil || id < 0) {
+		c.Writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
+	_, i := getCourseAndIndex(&courses, id)
+	if i < 0 {
+		c.Writer.WriteHeader(http.StatusNotFound)
+		return
+	}
+	fmt.Print(courses)
+	
+	courses = append(courses[:i], courses[i+1:]...)
+
+	fmt.Print(courses)
 }
 
 func main(){
@@ -111,8 +149,17 @@ func main(){
 	router.GET(basePath + "/course", getCourses)
 	router.POST(basePath + "/course", postCourse)
 	router.GET(basePath + "/course/:id", getCourseById)
-	router.PUT(basePath + "/course:id", updateCourse)
-	router.DELETE(basePath + "/course:id", deleteCourse)
+	router.PUT(basePath + "/course/:id", updateCourse)
+	router.DELETE(basePath + "/course/:id", deleteCourse)
 
 	router.Run("localhost:8080")
+}
+
+func getCourseAndIndex(list *[]Course, id int) (*Course, int) {
+	for i, course := range *list {
+		if course.Id == id {
+			return &course, i
+		}
+	}
+	return nil, -1
 }
