@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -95,8 +94,6 @@ func getCourseById(c *gin.Context) {
 	}
 	
 	c.IndentedJSON(http.StatusOK, course)
-
-	c.Writer.WriteHeader(http.StatusNotFound)
 }
 
 // PUT /course/:id
@@ -137,11 +134,8 @@ func deleteCourse(c *gin.Context) {
 		c.Writer.WriteHeader(http.StatusNotFound)
 		return
 	}
-	fmt.Print(courses)
 	
 	courses = append(courses[:i], courses[i+1:]...)
-
-	fmt.Print(courses)
 }
 
 func main(){
