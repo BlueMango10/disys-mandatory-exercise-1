@@ -1,4 +1,4 @@
-module itucm
+module itucm/server
 
 go 1.17
 
