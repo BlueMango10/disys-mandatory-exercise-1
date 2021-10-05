@@ -1,0 +1,26 @@
+service ITUCourseManager {
+	rpc GetAllCourses (Empty) returns (CourseList) {}
+	rpc PostGourse (Course) returns (Empty) {}
+	rpc GetCourse (Id) returns (Course) {}
+	rpc PutCourse (Course) returns (Empty) {}
+	rpc DeleteCourse (Id) returns (Empty) {}
+}
+
+message Empty {}
+
+message Id {
+	required int32 id = 1;
+}
+
+message Course {
+	required int32 id = 1;
+	required string name = 2;
+	optional int32 workload = 3;
+	optional float satisfaction = 4;
+	optional int32 teacher = 5;
+	repeated int32 students = 6;
+}
+
+message CourseList {
+	repeated Course courses = 1;
+}
