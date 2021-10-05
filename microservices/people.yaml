@@ -1,0 +1,257 @@
+swagger: "2.0"
+info:
+  title: ITU Course Manager - People
+  description: A microservice which is part of the ITU Course Manager API. This microservice handles people (students and teachers).
+  version: 1.0.0
+
+host: localhost:8080
+basePath: /itucm
+schemes:
+  - http
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+definitions:
+  Student:
+    properties:
+      id:
+        type: integer
+        example: 12345
+      name:
+        type: string
+        example: Garfield Guevara
+    required:
+      - id
+      - name
+  Teacher:
+    properties:
+      id:
+        type: integer
+        example: 12345
+      name:
+        type: string
+        example: Cameron Morse
+      popularity:
+        type: number
+        example: 0.5
+    required:
+      - id
+      - name
+
+paths:
+  /student:
+    get:
+      summary: Return a list of all students.
+      tags:
+        - Student
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Student'
+        default:
+          description: Unexpected error.
+    post:
+      summary: Create new student.
+      tags:
+        - Student
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: student
+          required: true
+          schema:
+            $ref: '#/definitions/Student'
+      responses:
+        201:
+          description: Created
+        default:
+          description: Unexpected error.
+  
+  /student/{id}:
+    get:
+      summary: Return one student and their workload.
+      tags:
+        - Student
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 0
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              student:
+                $ref: '#/definitions/Student'
+              workload:
+                type: integer
+                example: 100
+        400:
+          description: The specified student ID is invalid.
+        404:
+          description: Student not found.
+        default:
+          description: Unexpected error.
+    put:
+      summary: Update student info.
+      tags:
+        - Student
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 0
+        - in: body
+          name: student
+          required: true
+          schema:
+            $ref: '#/definitions/Student'
+      responses:
+        200:
+          description: OK
+        400:
+          description: The specified student ID is invalid.
+        404:
+          description: Student not found.
+        default:
+          description: Unexpected error.
+    delete:
+      summary: Remove student
+      tags:
+        - Student
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 0
+      responses:
+        200:
+          description: OK
+        400:
+          description: The specified user ID is invalid.
+        404:
+          description: Student not found.
+        default:
+          description: Unexpected error.
+        
+  /teacher:
+    get:
+      summary: Return a list of all teachers.
+      tags:
+        - Teacher
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Teacher'
+        default:
+          description: Unexpected error.
+    post:
+      summary: Create new teacher.
+      tags:
+        - Teacher
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: teacher
+          required: true
+          schema:
+            $ref: '#/definitions/Teacher'
+      responses:
+        201:
+          description: Created
+        default:
+          description: Unexpected error.
+  
+  /teacher/{id}:
+    get:
+      summary: Return one teacher.
+      tags:
+        - Teacher
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 0
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Teacher'
+        400:
+          description: The specified teacher ID is invalid.
+        404:
+          description: Student not found.
+        default:
+          description: Unexpected error.
+    put:
+      summary: Update teacher info.
+      tags:
+        - Teacher
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 0
+        - in: body
+          name: student
+          required: true
+          schema:
+            $ref: '#/definitions/Teacher'
+      responses:
+        200:
+          description: OK
+        400:
+          description: The specified teacher ID is invalid.
+        404:
+          description: Student not found.
+        default:
+          description: Unexpected error.
+    delete:
+      summary: Remove teacher
+      tags:
+        - Teacher
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 0
+      responses:
+        200:
+          description: OK
+        400:
+          description: The specified teacher ID is invalid.
+        404:
+          description: Student not found.
+        default:
+          description: Unexpected error.
