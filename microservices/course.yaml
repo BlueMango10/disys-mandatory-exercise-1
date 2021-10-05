@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
-  title: ITU Course Manager - People
-  description: A microservice which is part of the ITU Course Manager API. This microservice handles people, that is, students and teachers.
+  title: ITU Course Manager - Course
+  description: A microservice which is part of the ITU Course Manager API. This microservice handles courses.
   version: 1.0.0
 
 host: localhost:8080
