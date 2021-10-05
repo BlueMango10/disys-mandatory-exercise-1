@@ -1,0 +1,154 @@
+swagger: "2.0"
+info:
+  title: ITU Course Manager - People
+  description: A microservice which is part of the ITU Course Manager API. This microservice handles people, that is, students and teachers.
+  version: 1.0.0
+
+host: localhost:8080
+basePath: /itucm
+schemes:
+  - http
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+definitions:
+  Course:
+    properties:
+      id:
+        type: integer
+        example: 123
+      name:
+        type: string
+        example: Distributed Systems, BSc (Autumn 2021)
+      workload:
+        type: integer
+        example: 32
+      satisfaction:
+        type: number
+        example: 0.5
+      teacher: # Teacher id
+        type: integer
+        example: 1
+      students:
+        type: array
+        items: # Student id
+          type: integer
+          example: 2
+    required:
+      - id
+      - name
+
+paths:
+  /course:
+    get:
+      summary: Returns list of courses.
+      tags:
+        - Course
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Course'
+        default:
+          description: Unexpected error.
+    post:
+      summary: Create a new course.
+      tags:
+        - Course
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: course
+          required: true
+          schema:
+            $ref: "#/definitions/Course"
+      responses:
+        201:
+          description: Created
+        default:
+          description: Unexpected error.
+
+  /course/{id}:
+    get:
+      summary: Returns course with provided id.
+      tags:
+        - Course
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          type: integer
+          name: id
+          required: true
+        - in: body
+          name: course
+          schema:
+            $ref: "#/definitions/Course"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/Course"
+        400:
+          description: The specified course ID is invalid.
+        404:
+          description: Student not found.
+        default:
+          description: Unexpected error.
+    put:
+      summary: updates course with provided id.
+      tags:
+        - Course
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          type: integer
+          name: id
+          required: true
+        - in: body
+          name: course
+          required: true
+          schema:
+            $ref: "#/definitions/Course"
+      responses:
+        200:
+          description: OK
+        400:
+          description: The specified course ID is invalid.
+        404:
+          description: Student not found.
+        default:
+          description: Unexpected error.
+    delete:
+      summary: removes course with provided id.
+      tags:
+        - Course
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          type: integer
+          name: id
+          required: true
+      responses:
+        200:
+          description: OK
+        400:
+          description: The specified course ID is invalid.
+        404:
+          description: Student not found.
+        default:
+          description: Unexpected error.
