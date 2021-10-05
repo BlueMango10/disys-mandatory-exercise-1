@@ -19,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ITUCourseManagerClient interface {
 	GetAllCourses(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*CourseList, error)
-	PostGourse(ctx context.Context, in *Course, opts ...grpc.CallOption) (*Empty, error)
+	PostCourse(ctx context.Context, in *Course, opts ...grpc.CallOption) (*Empty, error)
 	GetCourse(ctx context.Context, in *Id, opts ...grpc.CallOption) (*Course, error)
 	PutCourse(ctx context.Context, in *Course, opts ...grpc.CallOption) (*Empty, error)
 	DeleteCourse(ctx context.Context, in *Id, opts ...grpc.CallOption) (*Empty, error)
@@ -42,9 +42,9 @@ func (c *iTUCourseManagerClient) GetAllCourses(ctx context.Context, in *Empty, o
 	return out, nil
 }
 
-func (c *iTUCourseManagerClient) PostGourse(ctx context.Context, in *Course, opts ...grpc.CallOption) (*Empty, error) {
+func (c *iTUCourseManagerClient) PostCourse(ctx context.Context, in *Course, opts ...grpc.CallOption) (*Empty, error) {
 	out := new(Empty)
-	err := c.cc.Invoke(ctx, "/ITUCourseManager/PostGourse", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ITUCourseManager/PostCourse", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func (c *iTUCourseManagerClient) DeleteCourse(ctx context.Context, in *Id, opts 
 // for forward compatibility
 type ITUCourseManagerServer interface {
 	GetAllCourses(context.Context, *Empty) (*CourseList, error)
-	PostGourse(context.Context, *Course) (*Empty, error)
+	PostCourse(context.Context, *Course) (*Empty, error)
 	GetCourse(context.Context, *Id) (*Course, error)
 	PutCourse(context.Context, *Course) (*Empty, error)
 	DeleteCourse(context.Context, *Id) (*Empty, error)
@@ -97,8 +97,8 @@ type UnimplementedITUCourseManagerServer struct {
 func (UnimplementedITUCourseManagerServer) GetAllCourses(context.Context, *Empty) (*CourseList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllCourses not implemented")
 }
-func (UnimplementedITUCourseManagerServer) PostGourse(context.Context, *Course) (*Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PostGourse not implemented")
+func (UnimplementedITUCourseManagerServer) PostCourse(context.Context, *Course) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PostCourse not implemented")
 }
 func (UnimplementedITUCourseManagerServer) GetCourse(context.Context, *Id) (*Course, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCourse not implemented")
@@ -140,20 +140,20 @@ func _ITUCourseManager_GetAllCourses_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ITUCourseManager_PostGourse_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ITUCourseManager_PostCourse_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Course)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ITUCourseManagerServer).PostGourse(ctx, in)
+		return srv.(ITUCourseManagerServer).PostCourse(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/ITUCourseManager/PostGourse",
+		FullMethod: "/ITUCourseManager/PostCourse",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ITUCourseManagerServer).PostGourse(ctx, req.(*Course))
+		return srv.(ITUCourseManagerServer).PostCourse(ctx, req.(*Course))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -224,8 +224,8 @@ var ITUCourseManager_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ITUCourseManager_GetAllCourses_Handler,
 		},
 		{
-			MethodName: "PostGourse",
-			Handler:    _ITUCourseManager_PostGourse_Handler,
+			MethodName: "PostCourse",
+			Handler:    _ITUCourseManager_PostCourse_Handler,
 		},
 		{
 			MethodName: "GetCourse",

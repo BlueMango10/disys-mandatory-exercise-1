@@ -4,7 +4,7 @@ option go_package = "itucm/grpc";
 
 service ITUCourseManager {
 	rpc GetAllCourses (Empty) returns (CourseList) {}
-	rpc PostGourse (Course) returns (Empty) {}
+	rpc PostCourse (Course) returns (Empty) {}
 	rpc GetCourse (Id) returns (Course) {}
 	rpc PutCourse (Course) returns (Empty) {}
 	rpc DeleteCourse (Id) returns (Empty) {}
